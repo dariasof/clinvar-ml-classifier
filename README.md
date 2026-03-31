@@ -96,34 +96,47 @@ and intolerant of variation.
 
 ## Error analysis
 
-Overall error rate: 5.5% (186,963 errors on 3.4M variants)
+Evaluated on test set only (685,749 variants unseen during training).
 
-- False Positives: 123,946 (benign variants wrongly flagged)
-- False Negatives: 63,017 (pathogenic variants missed)
+**By mutation type:**
 
-**Where the model struggles most:**
+| Type | Error rate | FN rate | FP rate |
+|---|---|---|---|
+| Microsatellite | 0.218 | 0.264 | 0.182 |
+| Duplication | 0.205 | 0.137 | 0.341 |
+| Deletion | 0.169 | 0.101 | 0.379 |
+| SNV | 0.140 | 0.484 | 0.091 |
+| Copy number gain | 0.084 | 0.122 | 0.059 |
 
-SNVs have the highest error rate (5.7%) despite being the
-most common mutation type. A single nucleotide change can
-be harmless or catastrophic depending on protein context —
-information not available from position alone.
+SNVs have the highest false negative rate (48%) despite being
+the most common type — single nucleotide effects depend on
+protein context, not position alone. Structural variants
+show high false positive rates as the model conflates their
+coordinates with nearby pathogenic hotspots.
 
-Genes with highest false negative rate (missed pathogenic):
-COL5A2 (48%), PCSK9 (40%), IDH3A (43%) — these genes have
-pathogenic variants whose effect depends on which protein
-domain is affected, beyond what position encodes.
+**By chromosome:**
 
-Genes with highest false positive rate (benign wrongly flagged):
-GJB1 (55%), IDS (53%), SCN1A (42%) — well-studied disease
-genes where benign variants cluster near known pathogenic
-hotspots, confusing position-based models.
+Chromosome X has the highest error rate (18.5%, FN 22.6%),
+consistent with the complexity of hemizygous X-linked
+inheritance. Mitochondrial DNA has the lowest error rate
+(2.7%) — mitochondrial pathogenicity follows cleaner
+position-based patterns.
 
-**Biological conclusion:**
-Errors concentrate in genes where pathogenicity depends on
-protein domain context or where benign and pathogenic variants
-share similar genomic coordinates. This points to a clear
-direction for improvement: adding protein structure and
-evolutionary conservation features.
+**By gene:**
+
+Genes with highest false negative rate: RELN (81%), C2CD3 (81%),
+DOCK7 (80%) — large neurodevelopmental genes where pathogenicity
+depends on protein domain context beyond genomic position.
+
+Genes with highest false positive rate: GBA1 (77%), TWIST1 (69%),
+GJB1 (65%) — well-studied disease genes where benign variants
+cluster near known pathogenic hotspots.
+
+**Conclusion:** Both error patterns point to the same limitation —
+genomic position is necessary but not sufficient. Protein domain
+annotation, population frequency (gnomAD), and evolutionary
+conservation (PhyloP) would directly address the systematic
+errors identified here.
 
 ---
 
