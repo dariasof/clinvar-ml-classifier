@@ -161,20 +161,26 @@ errors identified here.
 ---
 
 ## Reproduce
+
 ```bash
 # Clone repository
 git clone https://github.com/dariasof/clinvar-ml-classifier
+cd clinvar-ml-classifier
 
 # Create environment
 conda env create -f environment.yml
 conda activate clinvar-ml
 
-# Download data
+# Download data (~80 MB compressed, ~700 MB uncompressed)
+mkdir -p data
 cd data
 wget https://ftp.ncbi.nlm.nih.gov/pub/clinvar/tab_delimited/variant_summary.txt.gz
+gunzip variant_summary.txt.gz
+cd ..
 
 # Run analysis
-jupyter notebook notebooks/02_final_analysis.ipynb
+jupyter notebook notebooks/analysis.ipynb
+```
 ```
 
 ---
@@ -185,13 +191,13 @@ clinvar-ml-classifier/
 ├── README.md
 ├── environment.yml
 ├── notebooks/
-│   ├── analysis.ipynb  ← full pipeline from loading to error analysis
+│   └──analysis.ipynb  ← full pipeline from loading to error analysis
 ├── results/
 │   └── figures/
 │       ├── model_results.png
 │       └── error_analysis.png
 └── data/
-    └── variant_summary.txt.gz   ← not tracked by git
+    └── variant_summary.txt  ← not tracked by git
 ```
 
 ---
@@ -199,14 +205,7 @@ clinvar-ml-classifier/
 ## Tech stack
 
 Python 3.11 · pandas · scikit-learn · matplotlib · numpy
-```
 
----
-
-Two things to do after copying this in.
-
-First, create a `.gitignore` file in the root folder so the large data file doesn't get uploaded to GitHub:
-```
 data/
 __pycache__/
 .ipynb_checkpoints/
