@@ -188,7 +188,7 @@ cd ..
 # Run analysis
 jupyter notebook notebooks/analysis.ipynb
 ```
-```
+
 
 ---
 
@@ -212,8 +212,3 @@ clinvar-ml-classifier/
 ## Tech stack
 
 Python 3.11 · pandas · scikit-learn · matplotlib · numpy
-
-data/
-__pycache__/
-.ipynb_checkpoints/
-*.gz
