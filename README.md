@@ -92,11 +92,18 @@ consistent with the concept of functional constraint —
 certain genomic positions are conserved across evolution
 and intolerant of variation.
 
+![Model results](results/figures/model_results.png)
+Genomic position is the dominant predictor (59%), followed by 
+mutation type (22%). The ROC curve shows strong separation 
+between pathogenic and benign variants across all decision thresholds.
+
 ---
 
 ## Error analysis
 
 Evaluated on test set only (685,749 variants unseen during training).
+![Error analysis across genes, mutation types and chromosomes](results/figures/error_analysis.png)
+
 
 **By mutation type:**
 
